@@ -37,17 +37,19 @@ CREATE TABLE IF NOT EXISTS Document_type (
     name                VARCHAR(255) NOT NULL           COMMENT 'Наименование',
     code                VARCHAR(255) NOT NULL           COMMENT 'Код'
 );
+CREATE INDEX IX_Document_type_code ON Document_type(code);
 
 COMMENT ON TABLE Document IS 'Таблица типов документов';
 
 
 
 CREATE TABLE IF NOT EXISTS Document (
-    id                  INTEGER                         COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT ,
+    id                  INTEGER                         COMMENT 'Уникальный идентификатор' PRIMARY KEY,
     version             INTEGER      NOT NULL           COMMENT 'Служебное поле hibernate',
     document_type_id    INTEGER      NOT NULL           COMMENT 'Внешний ключ на таблицу типов документов',
     number              VARCHAR(25)  NOT NULL           COMMENT 'Номер',
     date                DATE         NOT NULL           COMMENT 'Дата',
+    FOREIGN KEY (id) REFERENCES User(id),
     FOREIGN KEY (document_type_id) REFERENCES Document_type(id)
 );
 CREATE INDEX IX_Document_document_type_id ON Document(document_type_id);
@@ -62,6 +64,7 @@ CREATE TABLE IF NOT EXISTS Citizenship (
     name                VARCHAR(255) NOT NULL           COMMENT 'Наименование',
     code                VARCHAR(255) NOT NULL           COMMENT 'Код'
 );
+CREATE INDEX IX_Citizenship_code ON Citizenship(code);
 
 COMMENT ON TABLE Citizenship IS 'Таблица Гражданства';
 
@@ -78,7 +81,6 @@ CREATE TABLE IF NOT EXISTS User (
     is_identified       BOOLEAN                         COMMENT 'Идентификация',
     office_id           INTEGER                         COMMENT 'Внешний ключ на таблицу офисов',
     citizenship_id      INTEGER                         COMMENT 'Внешний ключ на таблицу гражданства',
-    FOREIGN KEY (id) REFERENCES Document(id),
     FOREIGN KEY (office_id) REFERENCES Office(id),
     FOREIGN KEY (citizenship_id) REFERENCES Citizenship(id)
 );
