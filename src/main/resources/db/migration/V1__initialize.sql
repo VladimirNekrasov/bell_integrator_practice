@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS Document (
     date                DATE         NOT NULL           COMMENT 'Дата',
     FOREIGN KEY (document_type_id) REFERENCES Document_type(id)
 );
+CREATE INDEX IX_Document_document_type_id ON Document(document_type_id);
 
 COMMENT ON TABLE Document IS 'Таблица документов';
 
@@ -76,13 +77,13 @@ CREATE TABLE IF NOT EXISTS User (
     phone               VARCHAR(11)  NOT NULL           COMMENT 'Номер телефона',
     is_identified       BOOLEAN                         COMMENT 'Идентификация',
     office_id           INTEGER                         COMMENT 'Внешний ключ на таблицу офисов',
-    document_id         INTEGER      UNIQUE             COMMENT 'Внешний ключ на таблицу документов',
     citizenship_id      INTEGER                         COMMENT 'Внешний ключ на таблицу гражданства',
+    FOREIGN KEY (id) REFERENCES Document(id),
     FOREIGN KEY (office_id) REFERENCES Office(id),
-    FOREIGN KEY (document_id) REFERENCES Document(id),
     FOREIGN KEY (citizenship_id) REFERENCES Citizenship(id)
 );
 CREATE INDEX IX_User_office_id ON User(office_id);
+CREATE INDEX IX_User_citizenship_id ON User(citizenship_id);
 
 COMMENT ON TABLE User IS 'Таблица пользователей';
 
