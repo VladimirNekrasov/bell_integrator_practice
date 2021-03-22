@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.bellitegrator.practice.citizenship.model.Citizenship;
+import ru.bellitegrator.practice.document.model.Document;
 import ru.bellitegrator.practice.office.model.Office;
 
 import javax.persistence.Column;
@@ -15,6 +16,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -60,7 +64,9 @@ public class User {
     @JoinColumn(name = "citizenship_id")
     private Citizenship citizenship;
 
-
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Document document;
 
 
 }
